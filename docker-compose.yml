@@ -1,0 +1,32 @@
+version: "3"
+services:
+  db:
+    build:
+      context: .
+      dockerfile: dockerfiles/Dockerfile-mysql
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+    restart: always
+
+  go-service:
+    build:
+      context: .
+      dockerfile: dockerfiles/Dockerfile-go
+    ports:
+      - "8080:8080"
+    restart: always
+    depends_on:
+      - db
+
+  worker:
+    build:
+      context: .
+      dockerfile: dockerfiles/Dockerfile-worker
+    restart: always
+    depends_on:
+      - db
+
+volumes:
+  mysql-data:

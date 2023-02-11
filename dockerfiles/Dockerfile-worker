@@ -1,0 +1,13 @@
+FROM golang:1.16
+
+# Set the working directory to /app
+WORKDIR /app
+
+# Copy the contents of the local directory to the image
+COPY . .
+
+# Run go build to compile the worker program
+RUN go build -o worker cmd/worker/main.go
+
+# Start the worker service when the container starts
+CMD ["./worker"]

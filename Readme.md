@@ -20,7 +20,7 @@ This API provides functionality for shortening URLs and redirecting to the origi
     This command will create three containers:
    - One for MySQL,
    - One for the URL shortening service, and
-   - Another for the worker that deletes URLs created in the last 24 hours.
+   - Another for the worker that deletes expired links from the database.
 
 4. Verify the containers are running:
     `$ docker ps`

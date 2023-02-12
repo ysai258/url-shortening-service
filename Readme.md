@@ -8,7 +8,7 @@ This API provides functionality for shortening URLs and redirecting to the origi
 
 ### 1. Create Short Link
 
-Endpoint: `/api/shorten`  
+Endpoint: `/shorten`  
 Method: `POST`
 
 **Request Body**
@@ -54,7 +54,7 @@ Method: `GET`
 -   Create short link:
 
 `curl -X POST \
-  http://localhost:8080/api/shorten \
+  http://localhost:8080/shorten \
   -H 'Content-Type: application/json' \
   -d '{
     "longLink": "https://example.com"

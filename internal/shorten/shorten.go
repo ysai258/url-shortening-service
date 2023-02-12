@@ -1,7 +1,7 @@
+// Package shorten is the main package of a URL shortening service.
 package shorten
 
 import (
-	"database/sql"
 	"encoding/json"
 	"fmt"
 	"math/rand"
@@ -14,11 +14,12 @@ import (
 	"github.com/url-shortening-service/pkg/db"
 )
 
+// ShortBody represents the body of a request to shorten a URL.
 type ShortBody struct {
 	Url string `json:"url"`
 }
 
-// Create random short link
+// generateShortLink creates a random short link.
 func generateShortLink() string {
 	rand.Seed(time.Now().UnixNano())
 	b := make([]byte, constants.SHORT_LINK_LENGTH)
@@ -29,6 +30,8 @@ func generateShortLink() string {
 	}
 	return string(b)
 }
+
+// isLinkValid checks if a short link already exists in the database.
 func isLinkValid(link string) (bool, error) {
 	var count int
 	err := db.Db.QueryRow("SELECT COUNT(*) FROM links WHERE shortLink=?", link).Scan(&count)
@@ -37,6 +40,8 @@ func isLinkValid(link string) (bool, error) {
 	}
 	return count == 0, nil
 }
+
+// getShortLink returns a unique short link.
 func getShortLink() (string, error) {
 	link := generateShortLink()
 	checkCode, err := isLinkValid(link)
@@ -49,23 +54,18 @@ func getShortLink() (string, error) {
 	}
 	return link, err
 }
-func checkLinkExists(link string) (string, error) {
-	var short sql.NullString
-	err := db.Db.QueryRow("SELECT shortLink FROM links WHERE longLink=? AND created>=now() - INTERVAL 1 DAY", link).Scan(&short)
-	if err != nil && err != sql.ErrNoRows {
-		return "", err
-	}
-	return short.String, nil
-}
+
+// validLink checks if a URL is valid.
 func validLink(link string) bool {
 	r, err := regexp.Compile("^(http|https)://")
 	if err != nil {
 		return false
 	}
 	link = strings.TrimSpace(link)
-	// Check if string matches the regex
 	return r.MatchString(link)
 }
+
+// Shorten is the main function to shorten a URL.
 func Shorten(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	payload := make(map[string]string)
@@ -90,21 +90,7 @@ func Shorten(w http.ResponseWriter, r *http.Request) {
 		return
 
 	}
-	prevLink, err := checkLinkExists(longLink)
-	if err != nil {
-		w.WriteHeader(http.StatusBadGateway)
-		payload[msgKey] = "Error checking long link"
-		payload[errKey] = err.Error()
-		json.NewEncoder(w).Encode(payload)
-		return
-	}
-	if len(prevLink) > 0 {
-		w.WriteHeader(http.StatusOK)
-		payload[respKey] = fmt.Sprintf("http://localhost:8080/%s", prevLink)
-		w.WriteHeader(http.StatusOK)
-		json.NewEncoder(w).Encode(payload)
-		return
-	}
+
 	shortLink, err := getShortLink()
 	if err != nil {
 		w.WriteHeader(http.StatusBadGateway)

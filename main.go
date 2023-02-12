@@ -1,3 +1,4 @@
+// main is the entry point of the program
 package main
 
 import (
@@ -12,13 +13,18 @@ import (
 )
 
 func main() {
+	// Initialize the database
 	db.InitDB()
 
+	// Create a new router
 	r := mux.NewRouter()
+
+	// Define routes and associated handlers
 	r.HandleFunc("/shorten", shorten.Shorten).Methods("POST")
 	r.HandleFunc("/", home.Home)
 	r.HandleFunc("/{shortLink}", redirect.Redirect)
 
+	// Start the HTTP server
 	err := http.ListenAndServe(":8080", r)
 	if err != nil {
 		log.Panic(err)

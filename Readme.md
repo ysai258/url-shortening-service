@@ -24,12 +24,12 @@ json
 -   200 OK:
 
     `{
-    "shortLink": "http://localhost:8080/r/abcdef"
+    "shortLink": "http://localhost:8080/abcdef"
 }`
 
 ### 2. Redirect Short Link
 
-Endpoint: `/r/{shortLink}`  
+Endpoint: `/{shortLink}`  
 Method: `GET`
 
 **Response**
@@ -62,4 +62,4 @@ Method: `GET`
 
 -   Redirect short link:
 
-`curl -I http://localhost:8080/r/abcdef`
+`curl -I http://localhost:8080/abcdef`

@@ -4,6 +4,27 @@
 
 This API provides functionality for shortening URLs and redirecting to the original URL when the short URL is accessed.
 
+## Usage
+
+1. Clone the repository:
+    `$ git clone https://github.com/ysai258/url-shortening-service`
+
+
+2. Navigate into the cloned repository:
+    `$ cd url-shortening-service`
+
+
+3. Run docker-compose to create the containers:
+    `$ docker-compose up`
+
+    This command will create three containers:
+   - One for MySQL,
+   - One for the URL shortening service, and
+   - Another for the worker that deletes URLs created in the last 24 hours.
+
+4. Verify the containers are running:
+    `$ docker ps`
+
 ## Endpoints
 
 ### 1. Create Short Link

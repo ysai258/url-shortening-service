@@ -48,7 +48,7 @@ json
 -   200 OK:
 
     `{
-    "shortLink": "http://localhost:8080/abcdef"
+    "shortUrl": "http://localhost:8080/abcdef"
 }`
 
 ### 2. Redirect Short Link

@@ -25,6 +25,9 @@ This API provides functionality for shortening URLs and redirecting to the origi
 4. Verify the containers are running:
     `$ docker ps`
 
+### Note
+Database connection , username , password can be modified in `config.json` and `dockerfiles/Dockerfile-mysql`
+
 ## Endpoints
 
 ### 1. Create Short Link
@@ -37,7 +40,7 @@ Method: `POST`
 json
 
 `{
-    "url": "https://example.com"
+    "url": "https://www.google.com"
 }`
 
 **Response**

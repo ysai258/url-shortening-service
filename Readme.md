@@ -78,4 +78,4 @@ Method: `GET`
 
 -   Redirect short link:
 
-`curl -I http://localhost:8080/abcdef`
+`curl -X GET http://localhost:8080/SZHMRAI`

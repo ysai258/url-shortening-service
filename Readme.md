@@ -74,12 +74,7 @@ Method: `GET`
 
 -   Create short link:
 
-`curl -X POST \
-  http://localhost:8080/shorten \
-  -H 'Content-Type: application/json' \
-  -d '{
-    "longLink": "https://example.com"
-}'`
+`curl -X POST http://localhost:8080/shorten -H "Content-Type: application/json" -d '{"url":"https://www.google.com"}'`
 
 -   Redirect short link:
 
